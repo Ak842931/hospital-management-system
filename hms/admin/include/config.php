@@ -1,13 +1,15 @@
 <?php
-define('DB_SERVER','bn8e5523ah4x7rwqatic-mysql.services.clever-cloud.com');
-define('DB_USER','ujnkiwi7gdjhfwtd');
-define('DB_PASS' ,'XjdZPyV0c6alWWEe4MA6');
-define('DB_NAME', 'bn8e5523ah4x7rwqatic');
+$host = getenv("DB_HOST");
+$port = getenv("DB_PORT");
+$dbname = getenv("DB_NAME");
+$user = getenv("DB_USER");
+$pass = getenv("DB_PASS");
 
-$con = mysqli_connect(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
-
-// Check connection
-if (mysqli_connect_errno()) {
-    echo "Failed to connect to MySQL: " . mysqli_connect_error();
+try {
+    $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $user, $pass); // Use "mysql:" if you're using MySQL
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    echo "✅ Database connected successfully!";
+} catch (PDOException $e) {
+    echo "❌ DB Connection failed: " . $e->getMessage();
 }
 ?>
